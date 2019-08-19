@@ -9,6 +9,8 @@ PythonのフレームワークDjangoを利用したチャットボットです
 - Janome 0.3.9
 - PyMysql 0.8.0
 - Mysql 14.14
+
+
 ※ Django等はpipまたはPycharmでインストールします。
   Pycharmを使う場合はcondaを利用することができません。
 
