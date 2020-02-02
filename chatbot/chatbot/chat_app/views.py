@@ -117,5 +117,3 @@ def make_reply(text):
 # 辞書があれば最初に読み込む
 if os.path.exists(DICT_FILE):
     dic = json.load(open(DICT_FILE, "r"))
-
-

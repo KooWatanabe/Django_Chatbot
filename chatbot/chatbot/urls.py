@@ -15,9 +15,15 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from chatbot.accounts.views import TopView
+from chatbot.dashboard.views import dashboard
 
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('', TopView.as_view(), name='top'),
+    path('dashboard', dashboard, name='dashboard'),
+    path('dashboard/', include('django.contrib.auth.urls')),
     path('chat_app/', include('chatbot.chat_app.urls')),
+    path('accounts/', include('chatbot.accounts.urls')),
 ]

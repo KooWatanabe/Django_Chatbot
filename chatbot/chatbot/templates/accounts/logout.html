@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+    <html><meta charset="utf-8">
+        <body>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+            <script type="text/javascript">
+                $(document).ready(function() {
+                    function buildHTML(message) {
+                        var content = message.res ? `${ message.res }` : "";
+                        var me_content = message.me_res ? `${ message.me_res }` : "";
+                        var html = `<div class="message" data-id="${message.id}">
+                                      <div class="user__message__detail">
+                                        <p class="user__message__detail__name">
+                                            あなた
+                                        </p>
+                                        <p class="user__message__detail__body">
+                                            ${me_content}
+                                        </p>
+                                      </div>
+                                      <div class='cp__message__detail'>
+                                        <p class="cp__message__detail__name">
+                                            コンピュータ
+                                        </p>
+                                        <p class="cp__message__detail__body">
+                                            ${content}
+                                        </p>
+                                      </div>
+                                    </div>`
+                        return html;
+                    }
+
+                    $('#message-form').on('submit', function(e){
+                        e.preventDefault();
+                        var message = this[1].value
+                        var data = {'data': message}
+                        var form = $(this);
+                        $.ajax({
+                          url: form.prop('action'),
+                          type: 'post',
+                          traditional: true,
+                          data: form.serialize(),
+                          dataType: 'json',
+                        })
+                        .done(function(data){
+                          var html = buildHTML(data);
+                          $('.messages').append(html);
+                          $('#message_content').val(''); //input内のメッセージを消しています。
+                        })
+                        .fail(function(data){
+                          alert('エラーが発生したためメッセージは送信できませんでした。');
+                        })
+                        .always(function(data){
+                      $('.submit-btn').prop('disabled', false);　//ここで解除している
+                        })
+                      })
+
+                    function scrollBottom(){
+                        var target = $('.message').last();
+                        var position = target.offset().top + $('.messages').scrollTop();
+                        $('.messages').animate({
+                          scrollTop: position
+                        }, 300, 'swing');
+                      }
+                    });
+            </script>
+            <style>
+                h1 {
+                    width: 98%;
+                    color: #505050;
+                    padding: 0.5em;
+                    display: inline-block;
+                    line-height: 1.3;
+                    background: #dbebf8;
+                    vertical-align: middle;
+                    border-radius: 25px 25px 25px 25px;
+                    }
+
+                h1:before {
+                    content: '●';
+                    color: white;
+                    margin-right: 8px;
+                    }
+                .message:after,.message:before {
+                    clear: both;
+                    content: "";
+                    display: block;
+                    }
+
+                .user__message__detail {
+                    float: right;
+                    padding: 0 0 0 80%;
+                    }
+
+                .user__message__detail__body {
+                    position: relative;
+                    margin-left: auto;
+                    padding: 10px;
+                    border-radius: 10px;
+                    background: #eee;
+                    margin-right: auto;
+                    }
+
+                .cp__message__detail {
+                    float: left;
+                    }
+
+                .cp__message__detail__body {
+                    position: relative;
+                    margin-right: auto;
+                    padding: 10px;
+                    border-radius: 10px;
+                    background-color: #9cd6e7;
+                    margin-left: auto;
+                    }
+
+                .message {
+                      margin: 0 0 20px;
+                    }
+                .message:last-child {
+                    margin-bottom: 0;
+                }
+            </style>
+            <h1>チャットボットと会話しよう</h1>
+            <main id="chat">
+                <div class="messages"></div>
+                <form action="{% url 'chat_app:ajax_index' %}" method="POST" id="message-form">
+                    <div class="usr_message" style="width: 100%;
+                    text-align: right;
+                    padding: 30px 0;
+                    bottom: 0;">
+                        {% csrf_token %}
+                        <input id="message_content" name="message" type="text" size="50" style=
+                                "border-radius: 25px 25px 25px 25px;
+                                width:20%;
+                                height:25%;">
+                        <input class="btn" type="submit" value="発言" style="width:5%;">
+                    </div>
+                </form>
+            </main>
+        </body>
+    </html>
