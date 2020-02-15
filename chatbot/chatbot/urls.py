@@ -26,4 +26,5 @@ urlpatterns = [
     path('dashboard/', include('django.contrib.auth.urls')),
     path('chat_app/', include('chatbot.chat_app.urls')),
     path('accounts/', include('chatbot.accounts.urls')),
+    path('register/', include('chatbot.register.urls')),
 ]

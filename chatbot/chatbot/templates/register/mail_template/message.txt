@@ -1,0 +1,9 @@
+{{ user.username }} 様 会員登録、誠にありがとうございます。
+
+下記URLよりサイトにアクセスの上、会員登録を完了させてください。
+まだ会員登録手続きは完了しておりませんので、ご注意ください。
+
+本登録用URL
+{{ protocol}}://{{ domain }}{% url 'register:user_create_complete' token %}
+
+ My Chat 管理者

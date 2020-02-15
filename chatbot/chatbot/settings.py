@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'chatbot.accounts.apps.AccountsConfig',
     'chatbot.chat_app.apps.ChatAppConfig',
     'chatbot.dashboard.apps.DashboardConfig',
+    'chatbot.register.apps.RegisterConfig',
 ]
 
 MIDDLEWARE = [
@@ -130,3 +131,4 @@ STATIC_URL = '/static/'
 LOGIN_URL = 'accounts/login' # ログインしていないときのリダイレクト先
 LOGIN_REDIRECT_URL = 'dashboard' # ログイン後のリダイレクト先
 LOGOUT_REDIRECT_URL = 'top' # ログアウト後のリダイレクト先
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend' # メール設定
